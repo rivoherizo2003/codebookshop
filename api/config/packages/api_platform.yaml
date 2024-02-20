@@ -5,6 +5,7 @@ api_platform:
     mercure: ~
     formats:
         jsonld: ['application/ld+json']
+        json: ['application/json']
     docs_formats:
         jsonld: ['application/ld+json']
         jsonopenapi: ['application/vnd.openapi+json']
@@ -19,3 +20,8 @@ api_platform:
             rfc_7807_compliant_errors: true
     event_listeners_backward_compatibility_layer: false
     keep_legacy_inflector: false
+    swagger:
+        api_keys:
+            JWT:
+                name: Authorization
+                type: header
