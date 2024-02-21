@@ -54,4 +54,18 @@ class ProductRepository extends ServiceEntityRepository implements ProductReposi
     {
         return $this->findOneBy($criteria, $orderBy);
     }
+
+    public function save(Product $product, bool $isPersistNeeded = false): void
+    {
+        if($isPersistNeeded){
+            $this->getEntityManager()->persist($product);
+        }
+
+        $this->getEntityManager()->flush();
+    }
+
+    function delete(Product $product): void
+    {
+        $this->getEntityManager()->remove($product);
+    }
 }

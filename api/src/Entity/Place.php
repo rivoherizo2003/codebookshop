@@ -8,7 +8,7 @@ use ApiPlatform\Metadata\Get;
 use ApiPlatform\Metadata\GetCollection;
 use ApiPlatform\Metadata\Post;
 use ApiPlatform\Metadata\Put;
-use App\Controller\GetWeatherAction;
+use App\Action\GetWeatherAction;
 use App\Repository\PlaceRepository;
 use Doctrine\ORM\Mapping as ORM;
 
@@ -20,7 +20,7 @@ use Doctrine\ORM\Mapping as ORM;
         new Get(),
         new Put(),
         new Delete(),
-        new Get(uriTemplate: '/places/{id}/weather', controller: GetWeatherAction::class, name: 'weather')
+        new Get(uriTemplate: '/places/{place}/weather', controller: GetWeatherAction::class, name: 'weather')
     ],
     routePrefix: "/api", security: "is_granted('ROLE_USER')"
 )]

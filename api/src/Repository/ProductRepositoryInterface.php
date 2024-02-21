@@ -18,4 +18,8 @@ interface ProductRepositoryInterface
     function countItems(): int;
 
     function findOne(array $criteria, array $orderBy = null): Product | null;
+
+    function save(Product $product, bool $isPersistNeeded = false);
+
+    function delete(Product $product):void;
 }

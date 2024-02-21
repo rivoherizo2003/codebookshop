@@ -1,15 +1,13 @@
 <?php
 
-namespace App\Controller;
+namespace App\Action;
 
-use App\Entity\Place;
 use App\Entity\DataWeather;
-use Symfony\Component\DependencyInjection\ParameterBag\ContainerBagInterface;
+use App\Entity\Place;
 use Symfony\Component\DependencyInjection\ParameterBag\ParameterBagInterface;
 use Symfony\Component\HttpKernel\Attribute\AsController;
+use Symfony\Component\VarDumper\Cloner\Data;
 use Symfony\Contracts\HttpClient\HttpClientInterface;
-use function Symfony\Component\DependencyInjection\Loader\Configurator\env;
-
 #[AsController]
 final class GetWeatherAction
 {
@@ -17,7 +15,7 @@ final class GetWeatherAction
     {
     }
 
-    public function __invoke(Place $place)
+    public function __invoke(Place $place): DataWeather
     {
         $response = $this->client->request(
             'GET',
@@ -37,6 +35,6 @@ final class GetWeatherAction
         $weather->setWeather($content->weather);
 
 
-        return $weather;
+        return new DataWeather();
     }
 }

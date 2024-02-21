@@ -96,7 +96,6 @@ publicationDate: This value should not be null.',
          * findIriBy use static::getContainer
          */
         $iri = $this->findIriBy(Book::class, ['isbn' => '0099740915']);
-
         $client->request('PATCH', $iri, [
             'json'    => [
                 'title' => 'book title tested'
