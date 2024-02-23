@@ -3,6 +3,7 @@
 namespace App\Tests\Api;
 
 use ApiPlatform\Symfony\Bundle\Test\ApiTestCase;
+use App\Entity\Product;
 use App\Factory\ProductFactory;
 use Symfony\Component\HttpFoundation\Response;
 
@@ -10,7 +11,11 @@ class ProductTest extends AbstractTest
 {
     public function testGetProductsByPage(): void
     {
-        ProductFactory::createMany(40);
+        ProductFactory::createMany(40, [
+            'name' => 'TESTPRODUCT',
+            'description' => 'desc test',
+            'price' => 265.32
+        ]);
         $response = $this->createUserAndClientWithCredentials([
             'email'    => 'admin@codebookshop.com',
             'password' => 'secret',
@@ -32,6 +37,13 @@ class ProductTest extends AbstractTest
                 "hydra:next"  => "/api/products?page=2",
             ]
         ]);
+        $this->assertArraySubset([
+            "@id"             => "/api/products/1",
+            "@type"           => "Product",
+            'name' => 'TESTPRODUCT',
+            'desc' => 'desc test',
+            'unitPrice' => 265.32
+        ], $response->toArray()["hydra:member"][0]);
 
 
         $response = $this->createUserAndClientWithCredentials([
@@ -118,6 +130,7 @@ class ProductTest extends AbstractTest
 
         $product = ProductFactory::find(['id' => $product->getId()]);
         $this->assertEquals('patched desc', $product->getDescription());
+        $this->assertEquals(265.32, $product->getPrice());
     }
 
     public function testDeleteProduct()

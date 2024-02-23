@@ -12,24 +12,19 @@ use ApiPlatform\Metadata\Patch;
 use ApiPlatform\Metadata\Post;
 use ApiPlatform\Metadata\Put;
 use App\Entity\Product;
-use App\State\Processor\ProductDeleteProcessor;
-use App\State\Processor\ProductProcessor;
-use App\State\Provider\ProductProvider;
-use Symfony\Component\Validator\Constraints\NotBlank;
-use Symfony\Component\Validator\Constraints\NotNull;
+use App\State\Processor\EntityToResourceStateProcessor;
+use App\State\Provider\EntityToResourceStateProvider;
 use Symfony\Component\Validator\Constraints as Assert;
 
 #[ApiResource(
     shortName: "Product",
     operations: [
-        new GetCollection(provider: ProductProvider::class,
-            stateOptions: new Options(entityClass: Product::class)),
-        new Get(provider: ProductProvider::class,
-            stateOptions: new Options(entityClass: Product::class)),
-        new Post(validationContext: ['groups' => ['postValidation']], processor: ProductProcessor::class),
-        new Patch(requirements: ['id' => '\d+'], processor: ProductProcessor::class, stateOptions: new Options(entityClass: Product::class)),
-        new Put(validationContext: ['groups' => ['putValidation']], processor: ProductProcessor::class),
-        new Delete(processor: ProductDeleteProcessor::class, stateOptions: new Options(entityClass: Product::class))
+        new GetCollection(provider: EntityToResourceStateProvider::class, stateOptions: new Options(Product::class)),
+        new Get(provider: EntityToResourceStateProvider::class, stateOptions: new Options(Product::class)),
+        new Post(validationContext: ['groups' => ['postValidation']], processor: EntityToResourceStateProcessor::class, stateOptions: new Options(entityClass: Product::class)),
+        new Patch(requirements: ['id' => '\d+'], processor: EntityToResourceStateProcessor::class, stateOptions: new Options(entityClass: Product::class)),
+        new Put(validationContext: ['groups' => ['putValidation']], processor: EntityToResourceStateProcessor::class, stateOptions: new Options(entityClass: Product::class)),
+        new Delete(processor: EntityToResourceStateProcessor::class, stateOptions: new Options(entityClass: Product::class))
     ],
     routePrefix: "/api",
     security: "is_granted('ROLE_USER')",
@@ -45,8 +40,8 @@ class ProductResource
     #[Assert\Length(min: 10, max: 200, minMessage: "Too short, should be more than 10 characters", maxMessage: "Too long, should be less then 200 characters")]
     public string $name;
 
-    public ?string $desc = null;
+    public ?string $desc;
 
     #[Assert\GreaterThanOrEqual(value: 0, message: "Should be zero or more than zero")]
-    public ?float $unitPrice = 0;
+    public ?float $unitPrice;
 }
