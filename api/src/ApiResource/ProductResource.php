@@ -32,7 +32,6 @@ use Symfony\Component\Validator\Constraints as Assert;
 )]
 class ProductResource
 {
-    #[ApiProperty(readable: false, writable: false, identifier: true)]
     public ?int $id = null;
 
     #[Assert\NotBlank(message: "Blank value prohibited", groups: ['putValidation', 'postValidation'])]

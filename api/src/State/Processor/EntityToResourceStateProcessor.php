@@ -45,7 +45,7 @@ readonly class EntityToResourceStateProcessor implements ProcessorInterface
         return $data;
     }
 
-    private function mapResourceToEntity(object $resource, string $entityClass): ?Product
+    private function mapResourceToEntity(object $resource, string $entityClass): ?object
     {
         return $this->microMapper->map($resource, $entityClass);
     }

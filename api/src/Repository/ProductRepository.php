@@ -26,7 +26,7 @@ class ProductRepository extends ServiceEntityRepository implements ProductReposi
         parent::__construct($registry, Product::class);
     }
 
-    public function findProducts( int $itemPerPage, int $page = 1):array
+    public function paginateResults( int $itemPerPage, int $page = 1):array
     {
         $firstResult = ($page -1) * $itemPerPage;
 
@@ -50,9 +50,9 @@ class ProductRepository extends ServiceEntityRepository implements ProductReposi
             ->getSingleScalarResult();
     }
 
-    public function findOne(array $criteria, array $orderBy = null): Product |null
+    public function findOne(array $criteria): Product |null
     {
-        return $this->findOneBy($criteria, $orderBy);
+        return $this->findOneBy($criteria);
     }
 
     public function save(Product $product, bool $isPersistNeeded = false): void

@@ -135,7 +135,7 @@ class ProductTest extends AbstractTest
 
     public function testDeleteProduct()
     {
-        $product = ProductFactory::createOne([
+            $product = ProductFactory::createOne([
             'name' => 'TESTPRODUCT',
             'description' => 'desc test',
             'price' => 265.32
